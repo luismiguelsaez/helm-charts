@@ -1,9 +1,11 @@
 ---
 
 configMapFromFiles:
-  - name: test1
-    dir: files
-    pattern: "**.json"
-  - name: test2
-    dir: files
-    pattern: "**.ini"
+  - name: webcontent
+    dir: files/html
+    pattern: "**.html"
+    mount: /var/www/html
+  - name: config
+    dir: files/config
+    pattern: "**.config"
+    mount: /etc/nginx/conf.d
