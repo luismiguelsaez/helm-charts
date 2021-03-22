@@ -1,6 +1,6 @@
 ---
 
-replicaCount: 2
+replicaCount: 6
 
 resources:
   requests:

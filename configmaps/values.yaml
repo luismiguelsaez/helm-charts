@@ -1,0 +1,9 @@
+---
+
+configMapFromFiles:
+  - name: test1
+    dir: files
+    pattern: "**.json"
+  - name: test2
+    dir: files
+    pattern: "**.ini"

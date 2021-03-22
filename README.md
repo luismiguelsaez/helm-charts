@@ -1,3 +1,9 @@
+Check templates rendering
+=========================
+```
+helm install nginx nginx -f values-override.yml --dry-run --debug
+```
+
 Install chart
 =============
 ```
