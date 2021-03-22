@@ -7,5 +7,5 @@ configMapFromFiles:
     mount: /var/www/html
   - name: config
     dir: files/config
-    pattern: "**.config"
+    pattern: "**.conf"
     mount: /etc/nginx/conf.d
