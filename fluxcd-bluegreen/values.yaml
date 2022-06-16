@@ -64,18 +64,18 @@ resources:
     cpu: 100m
     memory: 128Mi
 
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
 autoscaling:
   enabled: true
   minReplicas: 1
   maxReplicas: 4
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 90
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
 
 fluxcd:
   flagger:
