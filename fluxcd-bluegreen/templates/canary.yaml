@@ -50,13 +50,13 @@ spec:
     webhooks:
       - name: smoke-test
         type: pre-rollout
-        url: http://flagger-loadtester.{{ .Values.fluxcd.flagger.load-tester.namespace }}/
+        url: "http://flagger-loadtester.{{ .Values.fluxcd.flagger.loadtester.namespace }}/"
         timeout: 15s
         metadata:
           type: bash
           cmd: "curl -sd 'anon' http://{{ include "fluxcd-bluegreen.fullname" . }}-canary.test:{{ .Values.service.port }}/token | grep token"
       - name: load-test
-        url: http://flagger-loadtester.{{ .Values.fluxcd.flagger.load-tester.namespace }}/
+        url: http://flagger-loadtester.{{ .Values.fluxcd.flagger.loadtester.namespace }}/
         timeout: 5s
         metadata:
           type: cmd

@@ -79,7 +79,7 @@ affinity: {}
 
 fluxcd:
   flagger:
-    load-tester:
+    loadtester:
       enabled: true
       namespace: flux-system
     canary:
