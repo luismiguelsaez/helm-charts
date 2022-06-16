@@ -1,64 +1,68 @@
-{{- if .Values.fluxcd.flagger.canary.enabled -}}
+{{- if .Values.canary.enabled -}}
 apiVersion: flagger.app/v1beta1
 kind: Canary
 metadata:
   name: {{ include "fluxcd-bluegreen.fullname" . }}
   labels:
     {{- include "fluxcd-bluegreen.labels" . | nindent 4 }}
+  annotations:
+    fluxcd.io/ignore: "false"
 spec:
-  # service mesh provider can be: kubernetes, istio, appmesh, nginx, gloo
-  provider: kubernetes
-  # deployment reference
+  provider: {{ .Values.canary.provider }}
   targetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ include "fluxcd-bluegreen.fullname" . }}
-  # the maximum time in seconds for the canary deployment
-  # to make progress before rollback (default 600s)
-  progressDeadlineSeconds: 60
-  # HPA reference (optional)
+  {{- if .Values.autoscaling.enabled }}
   autoscalerRef:
     apiVersion: autoscaling/v2beta2
     kind: HorizontalPodAutoscaler
     name: {{ include "fluxcd-bluegreen.fullname" . }}
+  {{- end }}
+  {{- if .Values.ingress.enabled }}
+  ingressRef:
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    name: {{ include "fluxcd-bluegreen.fullname" . }}
+  {{- end }}
   service:
     port: {{ .Values.service.port }}
-    portDiscovery: true
+    targetPort: {{ .Values.service.port }}
+    #portDiscovery: true
+  skipAnalysis: true
+  metricsServer: {{ .Values.canary.metrics.server }}
   analysis:
-    # schedule interval (default 60s)
-    interval: 30s
-    # max number of failed checks before rollback
-    threshold: 2
-    # number of checks to run before rollback
-    iterations: 10
-    # Prometheus checks based on 
-    # http_request_duration_seconds histogram
+    interval: {{ .Values.canary.analysis.interval }}
+    threshold: {{ .Values.canary.analysis.threshold }}
+    maxWeight: {{ .Values.canary.analysis.maxWeight }}
+    stepWeight: {{ .Values.canary.analysis.stepWeight }}
+    #iterations: {{ .Values.canary.analysis.iterations }} 
     metrics:
       - name: request-success-rate
-        # minimum req success rate (non 5xx responses)
-        # percentage (0-100)
-        thresholdRange:
-          min: 99
+        threshold: {{ .Values.canary.thresholds.successRate }}
         interval: 1m
       - name: request-duration
-        # maximum req duration P99
-        # milliseconds
-        thresholdRange:
-          max: 500
-        interval: 30s
-    # acceptance/load testing hooks
+        threshold: {{ .Values.canary.thresholds.latency }}
+        interval: 1m
     webhooks:
-      - name: smoke-test
+      - name: confirm-promotion
+        type: confirm-promotion
+        url: http://ifconfig.co
+      {{- if .Values.canary.helmtest.enabled }}
+      - name: "helm test"
         type: pre-rollout
-        url: "http://flagger-loadtester.{{ .Values.fluxcd.flagger.loadtester.namespace }}/"
-        timeout: 15s
+        url: {{ .Values.canary.helmtest.url }}
+        timeout: 3m
         metadata:
-          type: bash
-          cmd: "curl -sd 'anon' http://{{ include "fluxcd-bluegreen.fullname" . }}-canary.test:{{ .Values.service.port }}/token | grep token"
-      - name: load-test
-        url: http://flagger-loadtester.{{ .Values.fluxcd.flagger.loadtester.namespace }}/
+          type: "helmv3"
+          cmd: "test {{ .Release.Name }} -n {{ .Release.Namespace }}"
+      {{- end }}
+      {{- if .Values.canary.loadtest.enabled }}
+      - name: load-test-get
+        type: rollout
+        url: {{ .Values.canary.loadtest.url }}
         timeout: 5s
         metadata:
-          type: cmd
-          cmd: "hey -z 1m -q 10 -c 2 http://{{ include "fluxcd-bluegreen.fullname" . }}-canary.test:9898/"
+          cmd: "hey -z 1m -q 5 -c 2 http://{{ include "fluxcd-bluegreen.fullname" . }}.{{ .Release.Namespace }}:{{ .Values.service.port }}"
+      {{- end }}
 {{- end }}
