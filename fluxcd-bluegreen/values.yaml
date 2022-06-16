@@ -82,6 +82,7 @@ canary:
   metrics:
     server: http://prometheus-kube-prometheus-prometheus.monitoring:9090
   analysis:
+    skip: true
     # schedule interval (default 60s)
     interval: 15s
     # max number of failed metric checks before rollback
@@ -101,7 +102,7 @@ canary:
     # milliseconds
     latency: 500
   loadtest:
-    enabled: false
+    enabled: true
     # load tester address
     url: http://flagger-loadtester.flux-system/
   helmtest:

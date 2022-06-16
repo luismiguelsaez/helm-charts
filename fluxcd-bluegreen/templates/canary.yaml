@@ -29,14 +29,14 @@ spec:
     port: {{ .Values.service.port }}
     targetPort: {{ .Values.service.port }}
     #portDiscovery: true
-  skipAnalysis: true
+  skipAnalysis: {{ .Values.canary.analysis.skip }}
   metricsServer: {{ .Values.canary.metrics.server }}
   analysis:
     interval: {{ .Values.canary.analysis.interval }}
     threshold: {{ .Values.canary.analysis.threshold }}
-    maxWeight: {{ .Values.canary.analysis.maxWeight }}
-    stepWeight: {{ .Values.canary.analysis.stepWeight }}
-    #iterations: {{ .Values.canary.analysis.iterations }} 
+    #maxWeight: {{ .Values.canary.analysis.maxWeight }}
+    #stepWeight: {{ .Values.canary.analysis.stepWeight }}
+    iterations: {{ .Values.canary.analysis.iterations }} 
     metrics:
       - name: request-success-rate
         threshold: {{ .Values.canary.thresholds.successRate }}
