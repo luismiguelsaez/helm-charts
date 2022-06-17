@@ -75,6 +75,8 @@ spec:
         args:
         - name: service-name
           value: {{ include "argocd-bluegreen.fullname" . }}-preview
+        - name: prometheus-url
+          value: {{ .Values.strategy.blueGreen.prePromotionAnalysis.prometheus.url }}
       {{- end }}
       {{- if .Values.strategy.blueGreen.postPromotionAnalysis.enabled }}
       # https://argoproj.github.io/argo-rollouts/features/analysis/#bluegreen-post-promotion-analysis
