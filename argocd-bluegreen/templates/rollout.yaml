@@ -66,4 +66,17 @@ spec:
       # immediately before the promotion. If omitted, the default behavior is to promote the new
       # stack as soon as the ReplicaSet are completely ready/available.
       # Rollouts can be resumed using: `kubectl argo rollouts promote ROLLOUT`
-      autoPromotionEnabled: true
+      autoPromotionEnabled: {{ .Values.strategy.blueGreen.autoPromotion.enabled }}
+      {{- if .Values.strategy.blueGreen.prePromotionAnalysis.enabled }}
+      # https://argoproj.github.io/argo-rollouts/features/analysis/#bluegreen-pre-promotion-analysis
+      prePromotionAnalysis:
+        templates:
+        - templateName: success-rate
+        args:
+        - name: service-name
+          value: {{ include "argocd-bluegreen.fullname" . }}-preview
+      {{- end }}
+      {{- if .Values.strategy.blueGreen.postPromotionAnalysis.enabled }}
+      # https://argoproj.github.io/argo-rollouts/features/analysis/#bluegreen-post-promotion-analysis
+      postPromotionAnalysis: {}
+      {{- end }}

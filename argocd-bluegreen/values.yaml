@@ -80,3 +80,12 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+strategy:
+  blueGreen:
+    autoPromotion:
+      enabled: false
+    prePromotionAnalysis:
+      enabled: false
+    postPromotionAnalysis:
+      enabled: false
