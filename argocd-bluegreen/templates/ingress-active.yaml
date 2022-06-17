@@ -15,7 +15,7 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: {{ $fullName }}-active
+  name: "{{ $fullName }}-active"
   labels:
     {{- include "argocd-bluegreen.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
@@ -49,11 +49,11 @@ spec:
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: {{ include "argocd-bluegreen.fullname" . }}-active
+                name: "{{ $fullName }}-active"
                 port:
                   number: {{ $svcPort }}
               {{- else }}
-              serviceName: {{ $fullName }}
+              serviceName: "{{ $fullName }}-active"
               servicePort: {{ $svcPort }}
               {{- end }}
           {{- end }}
