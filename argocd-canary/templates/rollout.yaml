@@ -63,7 +63,7 @@ spec:
       maxUnavailable: 0
       steps:
       - setWeight: 10
-      - pause:
+        pause:
           duration: 10m
       - setWeight: 25
         pause:
