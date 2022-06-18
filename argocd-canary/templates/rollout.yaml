@@ -74,7 +74,7 @@ spec:
       - setWeight: 75
         pause:
           duration: 10m
-      - setWeigth: 100
+      - setWeight: 100
       - pause: {}
 
 
