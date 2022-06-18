@@ -57,6 +57,19 @@ spec:
   strategy:
     canary:
       #analysis: {}
+      trafficRouting:
+        nginx:
+          stableIngress: "{{ $fullName }}-stable"
+      canaryMetadata:
+        annotations:
+          phase: canary
+        labels:
+          phase: canary
+      stableMetadata:
+        annotations:
+          phase: stable
+        labels:
+          phase: stable
       canaryService: {{ include "argocd-canary.fullname" . }}-canary
       stableService: {{ include "argocd-canary.fullname" . }}-stable
       maxSurge: "25%"
