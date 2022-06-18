@@ -75,6 +75,4 @@ spec:
         pause:
           duration: 10m
       - setWeight: 100
-      - pause: {}
-
-
+        pause: {}
