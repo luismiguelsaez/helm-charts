@@ -1,5 +1,4 @@
 # https://argoproj.github.io/argo-rollouts/features/canary/
-{{- $fullName := include "argocd-canary.fullname" . -}}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -60,7 +59,7 @@ spec:
       #analysis: {}
       trafficRouting:
         nginx:
-          stableIngress: "{{ $fullName }}-stable"
+          stableIngress: "{{ include "argocd-canary.fullname" . }}-stable"
       canaryMetadata:
         annotations:
           phase: canary
