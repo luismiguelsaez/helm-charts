@@ -4,9 +4,9 @@ kind: AnalysisTemplate
 metadata:
   name: "{{ include "argocd-bluegreen.fullname" . }}-success-rate"
 spec:
-  #args:
-  #- name: service-name
-  #- name: prometheus-url
+  args:
+  - name: service-name
+  - name: prometheus-url
   metrics:
   - name: success-rate
     interval: 5m
@@ -16,7 +16,7 @@ spec:
     failureLimit: 3
     provider:
       prometheus:
-        address: {{ args.prometheus-url }}
+        address: {{ .Values.blueGreen.prePromotionAnalysis.prometheus.url }}
         query: |
           sum(irate(
             istio_requests_total{reporter="source",destination_service=~"{{args.service-name}}",response_code!~"5.*"}[5m]
