@@ -56,7 +56,7 @@ spec:
       {{- end }}
   strategy:
     canary:
-      analysis: {}
+      #analysis: {}
       canaryService: {{ include "argocd-canary.fullname" . }}-canary
       stableService: {{ include "argocd-canary.fullname" . }}-stable
       maxSurge: "25%"
