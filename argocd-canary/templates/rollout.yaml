@@ -1,4 +1,5 @@
 # https://argoproj.github.io/argo-rollouts/features/canary/
+{{- $fullName := include "argocd-canary.fullname" . -}}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
