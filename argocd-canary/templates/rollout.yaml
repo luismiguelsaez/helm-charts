@@ -59,7 +59,7 @@ spec:
       #analysis: {}
       trafficRouting:
         nginx:
-          stableIngress: "{{ include "argocd-canary.fullname" . }}-stable"
+          stableIngress: "{{ include "argocd-canary.fullname" . }}"
       canaryMetadata:
         annotations:
           phase: canary
