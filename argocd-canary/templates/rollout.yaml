@@ -61,6 +61,8 @@ spec:
       trafficRouting:
         nginx:
           stableIngress: "{{ include "argocd-canary.fullname" . }}"
+          additionalIngressAnnotations:
+            canary-by-header: X-Canary
       {{- end }}
       canaryMetadata:
         annotations:
