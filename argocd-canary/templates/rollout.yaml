@@ -70,8 +70,8 @@ spec:
           phase: stable
         labels:
           phase: stable
-      canaryService: {{ include "argocd-canary.fullname" . }}-canary
-      stableService: {{ include "argocd-canary.fullname" . }}-stable
+      #canaryService: {{ include "argocd-canary.fullname" . }}-canary
+      #stableService: {{ include "argocd-canary.fullname" . }}-stable
       maxSurge: "25%"
       maxUnavailable: 0
       steps:
