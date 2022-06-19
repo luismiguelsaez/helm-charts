@@ -80,16 +80,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-strategy:
-  blueGreen:
-    autoPromotion:
-      enabled: false
-    prePromotionAnalysis:
-      enabled: false
-      prometheus:
-        url: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9000
-    postPromotionAnalysis:
-      enabled: false
-      prometheus:
-        url: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9000
