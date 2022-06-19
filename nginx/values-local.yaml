@@ -1,0 +1,11 @@
+---
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: nginx.minikube.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []

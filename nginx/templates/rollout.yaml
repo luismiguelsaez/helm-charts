@@ -1,10 +1,33 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: {{ include "nginx.fullname" . }}
   labels:
     {{- include "nginx.labels" . | nindent 4 }}
 spec:
+  strategy:
+    canary:
+      canaryService: "{{ include "nginx.fullname" . }}-canary"
+      stableService: "{{ include "nginx.fullname" . }}"
+      trafficRouting:
+        nginx:
+          stableIngress: "{{ include "nginx.fullname" . }}"
+      steps:
+      - setWeight: 15
+      - pause:
+          duration: 1m
+      - setWeight: 25
+      - pause:
+          duration: 1m
+      - setWeight: 50
+      - pause:
+          duration: 1m
+      - setWeight: 75
+      - pause:
+          duration: 1m
+      - setWeight: 100
+      - pause: {}
+  revisionHistoryLimit: 2
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
@@ -59,3 +82,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+
