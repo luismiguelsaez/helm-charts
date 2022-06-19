@@ -1,9 +1,9 @@
-{{- if .Values.ingress.stable.enabled -}}
-{{- $fullName := include "argocd-canary.fullname" . -}}
+{{- if .Values.ingress.preview.enabled -}}
+{{- $fullName := include "argocd-active.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
-{{- if and .Values.ingress.stable.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
-  {{- if not (hasKey .Values.ingress.stable.annotations "kubernetes.io/ingress.class") }}
-  {{- $_ := set .Values.ingress.stable.annotations "kubernetes.io/ingress.class" .Values.ingress.stable.className}}
+{{- if and .Values.ingress.preview.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.ingress.preview.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.ingress.preview.annotations "kubernetes.io/ingress.class" .Values.ingress.preview.className}}
   {{- end }}
 {{- end }}
 {{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
@@ -15,20 +15,20 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: "{{ $fullName }}-stable"
+  name: "{{ $fullName }}-active"
   labels:
-    {{- include "argocd-canary.labels" . | nindent 4 }}
-  {{- with .Values.ingress.stable.annotations }}
+    {{- include "argocd-active.labels" . | nindent 4 }}
+  {{- with .Values.ingress.preview.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if and .Values.ingress.stable.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.ingress.stable.className }}
+  {{- if and .Values.ingress.preview.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.ingress.preview.className }}
   {{- end }}
-  {{- if .Values.ingress.stable.tls }}
+  {{- if .Values.ingress.preview.tls }}
   tls:
-    {{- range .Values.ingress.stable.tls }}
+    {{- range .Values.ingress.preview.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -37,7 +37,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.ingress.stable.hosts }}
+    {{- range .Values.ingress.preview.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
@@ -49,11 +49,11 @@ spec:
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: "{{ $fullName }}-stable"
+                name: "{{ $fullName }}-active"
                 port:
                   number: {{ $svcPort }}
               {{- else }}
-              serviceName: "{{ $fullName }}-stable"
+              serviceName: "{{ $fullName }}-active"
               servicePort: {{ $svcPort }}
               {{- end }}
           {{- end }}
