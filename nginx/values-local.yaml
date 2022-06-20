@@ -9,3 +9,11 @@ ingress:
         - path: /
           pathType: ImplementationSpecific
   tls: []
+
+rollout:
+  trafficManagement:
+    enabled: true
+    type: nginx
+  steps:
+    - setWeight: 5
+    - pause: {}

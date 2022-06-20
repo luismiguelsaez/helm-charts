@@ -9,24 +9,21 @@ spec:
     canary:
       canaryService: "{{ include "nginx.fullname" . }}-canary"
       stableService: "{{ include "nginx.fullname" . }}"
+      {{- if .Values.rollout.trafficManagement.enabled -}}
       trafficRouting:
+        {{- if eq .Values.rollout.trafficManagement.type "nginx" -}}
         nginx:
           stableIngress: "{{ include "nginx.fullname" . }}"
+        {{- end }}
+        {{- if eq .Values.rollout.trafficManagement.type "nginx" -}}
+        alb:
+          ingress: {{ include "nginx.fullname" . }}
+          #rootService: root-service
+          servicePort: {{ .Values.service.port }}
+          {{- end }}
+      {{- end }}
       steps:
-      - setWeight: 15
-      - pause:
-          duration: 1m
-      - setWeight: 25
-      - pause:
-          duration: 1m
-      - setWeight: 50
-      - pause:
-          duration: 1m
-      - setWeight: 75
-      - pause:
-          duration: 1m
-      - setWeight: 100
-      - pause: {}
+        {{- toYaml .Values.rollout.steps | nindent 8 }}
   revisionHistoryLimit: 2
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
