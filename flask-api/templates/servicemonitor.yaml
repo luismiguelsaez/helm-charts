@@ -8,8 +8,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/instance: {{ include "flask-api.fullname" . }}
-      app.kubernetes.io/name: {{ include "flask-api.fullname" . }}
+      {{ include "flask-api.selectorLabels" . | nindent 6 }}
   jobLabel: {{ include "flask-api.fullname" . }}
   namespaceSelector:
     matchNames:
