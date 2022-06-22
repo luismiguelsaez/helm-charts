@@ -1,0 +1,15 @@
+{{- if .Values.serviceMonitor.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "flask-api.fullname" . }}
+  labels:
+    {{- include "flask-api.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "flask-api.fullname" . }}
+  endpoints:
+  - port: http
+    interval: {{ .Values.serviceMonitor.interval }}
+{{- end }}
