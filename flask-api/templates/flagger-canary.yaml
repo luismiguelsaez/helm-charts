@@ -1,0 +1,65 @@
+{{- if .Values.flaggerCanary.enabled -}}
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: {{ include "flask-api.fullname" . }}
+  labels:
+    {{- include "flask-api.labels" . | nindent 4 }}
+  annotations:
+    fluxcd.io/ignore: "false"
+spec:
+  provider: {{ .Values.flaggerCanary.provider }}
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "flask-api.fullname" . }}
+  {{- if .Values.autoscaling.enabled }}
+  autoscalerRef:
+    apiVersion: autoscaling/v2beta2
+    kind: HorizontalPodAutoscaler
+    name: {{ include "flask-api.fullname" . }}
+  {{- end }}
+  {{- if .Values.ingress.enabled }}
+  ingressRef:
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    name: {{ include "flask-api.fullname" . }}
+  {{- end }}
+  service:
+    port: {{ .Values.service.port }}
+    targetPort: {{ .Values.service.port }}
+    #portDiscovery: true
+  skipAnalysis: {{ .Values.flaggerCanary.analysis.skip }}
+  metricsServer: {{ .Values.flaggerCanary.metrics.server }}
+  analysis:
+    interval: {{ .Values.flaggerCanary.analysis.interval }}
+    threshold: {{ .Values.flaggerCanary.analysis.threshold }}
+    #maxWeight: {{ .Values.flaggerCanary.analysis.maxWeight }}
+    #stepWeight: {{ .Values.flaggerCanary.analysis.stepWeight }}
+    iterations: {{ .Values.flaggerCanary.analysis.iterations }} 
+    metrics:
+      - name: request-success-rate
+        threshold: {{ .Values.flaggerCanary.thresholds.successRate }}
+        interval: 1m
+      - name: request-duration
+        threshold: {{ .Values.flaggerCanary.thresholds.latency }}
+        interval: 1m
+    webhooks:
+      {{- if .Values.flaggerCanary.helmtest.enabled }}
+      - name: "helm test"
+        type: pre-rollout
+        url: {{ .Values.flaggerCanary.helmtest.url }}
+        timeout: 3m
+        metadata:
+          type: "helmv3"
+          cmd: "test {{ .Release.Name }} -n {{ .Release.Namespace }}"
+      {{- end }}
+      {{- if .Values.flaggerCanary.loadtest.enabled }}
+      - name: load-test-get
+        type: rollout
+        url: {{ .Values.flaggerCanary.loadtest.url }}
+        timeout: 5s
+        metadata:
+          cmd: "hey -z 1m -q 5 -c 2 http://{{ include "flask-api.fullname" . }}-canary.{{ .Release.Namespace }}:{{ .Values.service.port }}"
+      {{- end }}
+{{- end }}

@@ -1,3 +1,4 @@
+{{- if .Values.argoRollout.enabled -}}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -9,13 +10,13 @@ spec:
     canary:
       canaryService: "{{ include "flask-api.fullname" . }}-canary"
       stableService: "{{ include "flask-api.fullname" . }}"
-      {{- if .Values.rollout.trafficManagement.enabled -}}
+      {{- if .Values.argoRollout.trafficManagement.enabled -}}
       trafficRouting:
-        {{- if eq .Values.rollout.trafficManagement.type "nginx" -}}
+        {{- if eq .Values.argoRollout.trafficManagement.type "nginx" -}}
         nginx:
           stableIngress: "{{ include "flask-api.fullname" . }}"
         {{- end }}
-        {{- if eq .Values.rollout.trafficManagement.type "nginx" -}}
+        {{- if eq .Values.argoRollout.trafficManagement.type "nginx" -}}
         alb:
           ingress: {{ include "flask-api.fullname" . }}
           #rootService: root-service
@@ -23,7 +24,7 @@ spec:
           {{- end }}
       {{- end }}
       steps:
-        {{- toYaml .Values.rollout.steps | nindent 8 }}
+        {{- toYaml .Values.argoRollout.steps | nindent 8 }}
   revisionHistoryLimit: 2
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -79,4 +80,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-
+{{- end }}
