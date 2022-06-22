@@ -8,8 +8,11 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: {{ include "flask-api.fullname" . }}
+      app.kubernetes.io/instance: {{ include "flask-api.fullname" . }}
   endpoints:
   - port: http
+    scheme: http
+    path: /metrics
+    scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
     interval: {{ .Values.serviceMonitor.interval }}
 {{- end }}

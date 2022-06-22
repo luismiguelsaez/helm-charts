@@ -10,6 +10,10 @@ ingress:
           pathType: ImplementationSpecific
   tls: []
 
+serviceMonitor:
+  enabled: true
+  interval: 15s
+
 argoRollout:
   enabled: false
   trafficManagement:

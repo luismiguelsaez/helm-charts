@@ -59,6 +59,7 @@ ingress:
 serviceMonitor:
   enabled: false
   interval: 15s
+  scrapeTimeout: 30s
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
