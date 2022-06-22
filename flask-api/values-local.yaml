@@ -1,7 +1,7 @@
 ---
 # https://fluxcd.io/flagger/tutorials/kubernetes-blue-green/
 ingress:
-  enabled: false
+  enabled: true
   className: nginx
   annotations: {}
   hosts:
