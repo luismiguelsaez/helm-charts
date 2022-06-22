@@ -13,6 +13,7 @@ ingress:
 serviceMonitor:
   enabled: true
   interval: 15s
+  namespace: monitoring
 
 argoRollout:
   enabled: false
