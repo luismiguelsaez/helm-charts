@@ -1,0 +1,19 @@
+---
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: api.minikube.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+rollout:
+  trafficManagement:
+    enabled: true
+    type: nginx
+  steps:
+    - setWeight: 5
+    - pause: {}
