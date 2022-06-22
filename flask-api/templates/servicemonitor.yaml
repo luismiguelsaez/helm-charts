@@ -9,6 +9,11 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/instance: {{ include "flask-api.fullname" . }}
+      app.kubernetes.io/name: {{ include "flask-api.fullname" . }}
+  jobLabel: {{ include "flask-api.fullname" . }}
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
   endpoints:
   - port: http
     scheme: http
