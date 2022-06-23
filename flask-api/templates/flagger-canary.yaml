@@ -26,11 +26,10 @@ spec:
     name: {{ include "flask-api.fullname" . }}
   {{- end }}
   service:
+    name: {{ include "flask-api.fullname" . }}
     port: {{ .Values.service.port }}
+    #portName: http
     targetPort: {{ .Values.service.port }}
-    metadata:
-      labels:
-        {{- include "flask-api.labels" . | nindent 8 }}
     #portDiscovery: true
   skipAnalysis: {{ .Values.flaggerCanary.analysis.skip }}
   metricsServer: {{ .Values.flaggerCanary.metrics.server }}

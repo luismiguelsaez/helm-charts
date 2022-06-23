@@ -8,8 +8,15 @@ metadata:
     {{- include "flask-api.labels" . | nindent 4 }}
 spec:
   selector:
-    matchLabels:
-      {{ include "flask-api.selectorLabels" . | nindent 6 }}
+    matchExpressions:
+      key: app.kubernetes.io/name
+      operator: In
+      values:
+      - "{{ include "flask-api.fullname" . }}"
+      - "{{ include "flask-api.fullname" . }}-primary"
+      - "{{ include "flask-api.fullname" . }}-canary"
+  #  matchLabels:
+  #    {{ include "flask-api.selectorLabels" . | nindent 6 }}
   jobLabel: {{ include "flask-api.fullname" . }}
   namespaceSelector:
     matchNames:
