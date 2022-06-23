@@ -1,0 +1,15 @@
+apiVersion: flagger.app/v1beta1
+kind: MetricTemplate
+metadata:
+  name: "{{ include "flask-api.fullname" . }}-request-success-rate"
+  labels:
+    {{- include "flask-api.labels" . | nindent 4 }}
+spec:
+  provider:
+    address: "{{ .Values.flaggerCanary.metrics.server }}"
+    type: prometheus
+  query: |
+    ( 
+      flask_http_request_total{service="{{ include "flask-api.fullname" . }}-canary",status="500"} / 
+      flask_http_request_total{service="{{ include "flask-api.fullname" . }}-canary",status="200"} 
+    ) > 0.05

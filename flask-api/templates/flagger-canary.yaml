@@ -45,11 +45,14 @@ spec:
       #  threshold: {{ .Values.flaggerCanary.thresholds.successRate }}
       #  interval: 1m
       - name: request-success-rate
-        query: |
-          ( 
-            flask_http_request_total{service="flask-api-primary",status="500"} / 
-            flask_http_request_total{service="flask-api-primary",status="200"} 
-          ) > 0.05
+        templateRef:
+          name: "{{ include "flask-api.fullname" . }}-request-success-rate"
+          namespace: "{{ .Release.Namespace }}" 
+        #query: |
+        #  ( 
+        #    flask_http_request_total{service="{{ include "flask-api.fullname" . }}-canary",status="500"} / 
+        #    flask_http_request_total{service="{{ include "flask-api.fullname" . }}-canary",status="200"} 
+        #  ) > 0.05
         threshold: 0
         interval: 1m
     webhooks:

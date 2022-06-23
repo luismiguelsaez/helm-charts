@@ -1,5 +1,10 @@
 ---
 # https://fluxcd.io/flagger/tutorials/kubernetes-blue-green/
+
+image:
+  repository: luismiguelsaez/flask-api
+  tag: latest
+
 ingress:
   enabled: true
   className: nginx
@@ -31,7 +36,7 @@ flaggerCanary:
   metrics:
     server: http://prometheus-kube-prometheus-prometheus.monitoring:9090
   analysis:
-    skip: true
+    skip: false
     # schedule interval (default 60s)
     interval: 15s
     # max number of failed metric checks before rollback
