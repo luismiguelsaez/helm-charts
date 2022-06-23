@@ -60,7 +60,7 @@ ingress:
 serviceMonitor:
   enabled: false
   interval: 15s
-  scrapeTimeout: 30s
+  scrapeTimeout: 14s
   namespace: monitoring
 
 resources: {}
