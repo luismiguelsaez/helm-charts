@@ -28,6 +28,9 @@ spec:
   service:
     port: {{ .Values.service.port }}
     targetPort: {{ .Values.service.port }}
+    metadata:
+      labels:
+        {{- include "flask-api.labels" . | nindent 8 }}
     #portDiscovery: true
   skipAnalysis: {{ .Values.flaggerCanary.analysis.skip }}
   metricsServer: {{ .Values.flaggerCanary.metrics.server }}
