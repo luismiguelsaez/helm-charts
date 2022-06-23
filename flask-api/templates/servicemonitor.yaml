@@ -20,4 +20,29 @@ spec:
     path: /metrics
     scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
     interval: {{ .Values.serviceMonitor.interval }}
+    relabelings:
+    - sourceLabels: [__meta_kubernetes_endpoint_address_target_name]
+      regex: '(.*)'
+      replacement: '$1'
+      target_label: container_name
+    - sourceLabels: [__meta_kubernetes_endpoints_label_app_kubernetes_io_name]
+      regex: '(.*)'
+      replacement: '$1'
+      target_label: app
+    - sourceLabels: [__meta_kubernetes_namespace]
+      regex: '(.*)'
+      replacement: '$1'
+      target_label: namespace
+    - sourceLabels: [__meta_kubernetes_pod_controller_kind]
+      regex: '(.*)'
+      replacement: '$1'
+      target_label: kind
+    - sourceLabels: [__meta_kubernetes_pod_ip]
+      regex: '(.*)'
+      replacement: '$1'
+      target_label: ip
+    - sourceLabels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+      regex: '(.*)'
+      replacement: '$1'
+      target_label: name
 {{- end }}
