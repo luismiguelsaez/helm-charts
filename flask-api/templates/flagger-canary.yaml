@@ -40,11 +40,17 @@ spec:
     #stepWeight: {{ .Values.flaggerCanary.analysis.stepWeight }}
     iterations: {{ .Values.flaggerCanary.analysis.iterations }} 
     metrics:
+      #- name: request-success-rate
+      #  query: 
+      #  threshold: {{ .Values.flaggerCanary.thresholds.successRate }}
+      #  interval: 1m
       - name: request-success-rate
-        threshold: {{ .Values.flaggerCanary.thresholds.successRate }}
-        interval: 1m
-      - name: request-duration
-        threshold: {{ .Values.flaggerCanary.thresholds.latency }}
+        query: |
+          ( 
+            flask_http_request_total{service="flask-api-primary",status="500"} / 
+            flask_http_request_total{service="flask-api-primary",status="200"} 
+          ) > 0.05
+        threshold: 0
         interval: 1m
     webhooks:
       {{- if .Values.flaggerCanary.helmtest.enabled }}

@@ -9,14 +9,12 @@ metadata:
 spec:
   selector:
     matchExpressions:
-    - key: app.kubernetes.io/name
+    - key: "app.kubernetes.io/name"
       operator: In
       values:
       - "{{ include "flask-api.fullname" . }}"
       - "{{ include "flask-api.fullname" . }}-primary"
       - "{{ include "flask-api.fullname" . }}-canary"
-  #  matchLabels:
-  #    {{ include "flask-api.selectorLabels" . | nindent 6 }}
   # Not including all the selectorLables, because generated services don't include all of them
   jobLabel: {{ include "flask-api.fullname" . }}
   namespaceSelector:
