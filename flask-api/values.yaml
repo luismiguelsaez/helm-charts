@@ -116,17 +116,26 @@ flaggerCanary:
     server: http://prometheus-kube-prometheus-prometheus.monitoring:9090
   analysis:
     skip: true
-    # schedule interval (default 60s)
-    interval: 15s
-    # max number of failed metric checks before rollback
-    threshold: 10
-    # max traffic percentage routed to canary
-    # percentage (0-100)
-    #maxWeight: 50
-    # canary increment step
-    # percentage (0-100)
-    #stepWeight: 5
-    iterations: 1
+    bluegreen:
+      # schedule interval (default 60s)
+      interval: 1m
+      # total number of iterations
+      iterations: 10
+      # max number of failed iterations before rollback
+      threshold: 2
+    canary:
+      interval: 1m
+      # max number of failed metric checks before rollback
+      threshold: 10
+      # max traffic percentage routed to canary
+      # percentage (0-100)
+      maxWeight: 50
+      # canary increment step
+      # percentage (0-100)
+      stepWeight: 2
+      # promotion increment step (default 100)
+      # percentage (0-100)
+      stepWeightPromotion: 100
   thresholds:
     # minimum req success rate (non 5xx responses)
     # percentage (0-100)

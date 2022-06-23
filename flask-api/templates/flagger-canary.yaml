@@ -34,11 +34,7 @@ spec:
   skipAnalysis: {{ .Values.flaggerCanary.analysis.skip }}
   metricsServer: {{ .Values.flaggerCanary.metrics.server }}
   analysis:
-    interval: {{ .Values.flaggerCanary.analysis.interval }}
-    threshold: {{ .Values.flaggerCanary.analysis.threshold }}
-    #maxWeight: {{ .Values.flaggerCanary.analysis.maxWeight }}
-    #stepWeight: {{ .Values.flaggerCanary.analysis.stepWeight }}
-    iterations: {{ .Values.flaggerCanary.analysis.iterations }} 
+    {{- .Values.flaggerCanary.analysis.bluegreen | toYaml | nindent 4 }}
     metrics:
       #- name: request-success-rate
       #  query: 
