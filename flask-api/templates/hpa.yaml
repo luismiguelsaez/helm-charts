@@ -1,9 +1,9 @@
 {{- if .Values.autoscaling.enabled }}
-{{- if semverCompare ">=1.23-0" .Capabilities.KubeVersion.GitVersion -}}
+{{- if semverCompare ">=1.23-0" .Capabilities.KubeVersion.GitVersion }}
 apiVersion: autoscaling/v2
-{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion }}
 apiVersion: autoscaling/v1
-{{- else -}}
+{{- else }}
 apiVersion: autoscaling/v2beta2
 {{- end }}
 kind: HorizontalPodAutoscaler
@@ -12,20 +12,20 @@ metadata:
   labels:
     {{- include "flask-api.labels" . | nindent 4 }}
 spec:
-  minReplicas: {{ .Values.autoscaling.minReplicas }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
-  {{- if semverCompare ">=1.23-0" .Capabilities.KubeVersion.GitVersion -}}
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ include "flask-api.fullname" . }}
+  minReplicas: {{ .Values.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  {{- if semverCompare ">=1.23-0" .Capabilities.KubeVersion.GitVersion }}
   metrics:
     {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
       resource:
         name: cpu
         target:
-          type: AverageValue
+          type: Utilization
           averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
     {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
@@ -33,7 +33,7 @@ spec:
       resource:
         name: memory
         target:
-          type: AverageValue
+          type: Utilization
           averageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
     {{- end }}
   {{- else -}}
