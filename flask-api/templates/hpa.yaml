@@ -13,9 +13,16 @@ metadata:
     {{- include "flask-api.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
+    {{- if .Values.flaggerCanary.enabled }}
     apiVersion: apps/v1
     kind: Deployment
     name: {{ include "flask-api.fullname" . }}
+    {{- end }}
+    {{- if .Values.argoRollout.enabled }}
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+    name: {{ include "flask-api.fullname" . }}
+    {{- end }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   {{- if semverCompare ">=1.23-0" .Capabilities.KubeVersion.GitVersion }}
