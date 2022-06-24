@@ -1,4 +1,3 @@
-#{{- if .Values.service.enabled -}}
 {{- if .Values.argoRollout.enabled -}}
 apiVersion: v1
 kind: Service
