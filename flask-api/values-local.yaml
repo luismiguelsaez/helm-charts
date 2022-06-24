@@ -3,7 +3,7 @@
 
 image:
   repository: luismiguelsaez/flask-api
-  tag: v1-fail
+  tag: v2-success
 
 ingress:
   enabled: true
