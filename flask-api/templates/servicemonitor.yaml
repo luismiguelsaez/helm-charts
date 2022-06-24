@@ -19,7 +19,7 @@ spec:
     {{- end }}
     {{- if .Values.argoRollout.enabled }}
     matchLabels:
-      {{- include "flask-api.labels" . | nindent 6 }}
+      {{- include "flask-api.selectorLabels" . | nindent 6 }}
     {{- end }}
   # Not including all the selectorLables, because generated services don't include all of them
   jobLabel: {{ include "flask-api.fullname" . }}
