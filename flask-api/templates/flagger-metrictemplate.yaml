@@ -11,7 +11,7 @@ spec:
     type: prometheus
   query: |
     ( 
-      flask_http_request_total{service="{{ include "flask-api.fullname" . }}-canary",status="500"} / 
-      flask_http_request_total{service="{{ include "flask-api.fullname" . }}-canary",status="200"} 
+      api_requests_latency_by_status_count{service="{{ include "flask-api.fullname" . }}-canary",status="500"} / 
+      api_requests_latency_by_status_count{service="{{ include "flask-api.fullname" . }}-canary",status="200"} 
     ) > 0.05
 {{- end }}
