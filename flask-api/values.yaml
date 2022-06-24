@@ -90,6 +90,8 @@ affinity: {}
 
 argoRollout:
   enabled: false
+  analysis:
+    enabled: true
   trafficManagement:
     enabled: false
     type: nginx

@@ -25,6 +25,14 @@ spec:
       {{- end }}
       steps:
         {{- toYaml .Values.argoRollout.steps | nindent 8 }}
+      {{- if .Values.argoRollout.analysis.enabled }}
+      analysis:
+        templates:
+        - templateName: success-rate
+        args:
+        - name: service-name
+          value: "{{ include "flask-api.fullname" . }}"
+      {{- end }}
   revisionHistoryLimit: 2
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
