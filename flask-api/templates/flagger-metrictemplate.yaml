@@ -1,3 +1,4 @@
+{{- if .Values.flaggerCanary.enabled -}}
 apiVersion: flagger.app/v1beta1
 kind: MetricTemplate
 metadata:
@@ -13,3 +14,4 @@ spec:
       flask_http_request_total{service="{{ include "flask-api.fullname" . }}-canary",status="500"} / 
       flask_http_request_total{service="{{ include "flask-api.fullname" . }}-canary",status="200"} 
     ) > 0.05
+{{- end }}
