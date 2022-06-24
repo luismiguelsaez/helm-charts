@@ -32,7 +32,7 @@ spec:
           {{- toYaml .Values.argoRollout.analysis.templates | nindent 10 }}
         args:
         - name: service-name
-          value: "{{ include "flask-api.fullname" . }}"
+          value: "{{ include "flask-api.fullname" . }}-canary"
         - name: prometheus-address
           value: "{{ .Values.argoRollout.analysis.prometheus.address}}"
         - name: interval
