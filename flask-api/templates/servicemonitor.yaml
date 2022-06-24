@@ -8,7 +8,7 @@ metadata:
     {{- include "flask-api.labels" . | nindent 4 }}
 spec:
   selector:
-    {{- if .Values.flaggerCanary.enabled -}}
+    {{- if .Values.flaggerCanary.enabled }}
     matchExpressions:
     - key: "app.kubernetes.io/name"
       operator: In
@@ -17,7 +17,7 @@ spec:
       - "{{ include "flask-api.fullname" . }}-primary"
       - "{{ include "flask-api.fullname" . }}-canary"
     {{- end }}
-    {{- if .Values.argoRollout.enabled -}}
+    {{- if .Values.argoRollout.enabled }}
     matchLabels:
       {{- include "flask-api.labels" . | nindent 6 }}
     {{- end }}
