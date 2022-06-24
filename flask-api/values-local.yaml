@@ -19,6 +19,7 @@ ingress:
 serviceMonitor:
   enabled: true
   interval: 15s
+  scrapeTimeout: 14s
   namespace: monitoring
 
 argoRollout:
