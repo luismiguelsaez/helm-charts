@@ -3,6 +3,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
   name: success-rate
+  name: prometheus-address
 spec:
   args:
   - name: service-name
@@ -13,10 +14,10 @@ spec:
     failureLimit: 3
     provider:
       prometheus:
-        address: http://prometheus.example.com:9090
+        address: "{{`{{args.prometheus-address}}`}}"
         query: |
           ( 
-            sum(irate(api_requests_latency_by_status_count{service="{{args.service-name}}-canary",status="500"}[5m])) / 
-            sum(irate(api_requests_latency_by_status_count{service="{{args.service-name}}",status="200"}[5m]))
+            sum(irate(api_requests_latency_by_status_count{service="{{`{{args.service-name}}`}}",status="500"}[5m])) / 
+            sum(irate(api_requests_latency_by_status_count{service="{{`{{args.service-name}}`}}",status="200"}[5m]))
           )
 {{- end }}

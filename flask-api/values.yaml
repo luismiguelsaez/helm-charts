@@ -92,8 +92,11 @@ argoRollout:
   enabled: false
   analysis:
     enabled: false
+    startingStep: 1
     templates:
     - templateName: success-rate 
+    prometheus:
+      address: http://prometheus-kube-prometheus-prometheus.monitoring:9090
   trafficManagement:
     enabled: false
     type: nginx
