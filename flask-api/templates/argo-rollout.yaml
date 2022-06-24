@@ -16,7 +16,7 @@ spec:
         nginx:
           stableIngress: "{{ include "flask-api.fullname" . }}"
         {{- end }}
-        {{- if eq .Values.argoRollout.trafficManagement.type "nginx" }}
+        {{- if eq .Values.argoRollout.trafficManagement.type "alb" }}
         alb:
           ingress: {{ include "flask-api.fullname" . }}
           #rootService: root-service
