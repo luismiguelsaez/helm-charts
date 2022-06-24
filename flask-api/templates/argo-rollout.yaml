@@ -10,13 +10,13 @@ spec:
     canary:
       canaryService: "{{ include "flask-api.fullname" . }}-canary"
       stableService: "{{ include "flask-api.fullname" . }}"
-      {{- if .Values.argoRollout.trafficManagement.enabled -}}
+      {{- if .Values.argoRollout.trafficManagement.enabled }}
       trafficRouting:
-        {{- if eq .Values.argoRollout.trafficManagement.type "nginx" -}}
+        {{- if eq .Values.argoRollout.trafficManagement.type "nginx" }}
         nginx:
           stableIngress: "{{ include "flask-api.fullname" . }}"
         {{- end }}
-        {{- if eq .Values.argoRollout.trafficManagement.type "nginx" -}}
+        {{- if eq .Values.argoRollout.trafficManagement.type "nginx" }}
         alb:
           ingress: {{ include "flask-api.fullname" . }}
           #rootService: root-service

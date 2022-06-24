@@ -23,7 +23,7 @@ serviceMonitor:
   namespace: monitoring
 
 argoRollout:
-  enabled: false
+  enabled: true
   trafficManagement:
     enabled: true
     type: nginx
@@ -32,7 +32,7 @@ argoRollout:
     - pause: {}
 
 flaggerCanary:
-  enabled: true
+  enabled: false
   provider: nginx
   metrics:
     server: http://prometheus-kube-prometheus-prometheus.monitoring:9090
