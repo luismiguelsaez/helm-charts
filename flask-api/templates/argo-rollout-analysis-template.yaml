@@ -8,6 +8,9 @@ metadata:
 spec:
   args:
   - name: service-name
+  - name: prometheus-address
+  - name: interval
+    value: 1m
   metrics:
   - name: success-rate
     interval: 5m
@@ -17,8 +20,8 @@ spec:
       prometheus:
         address: "{{`{{args.prometheus-address}}`}}"
         query: |
-          ( 
-            sum(irate(api_requests_latency_by_status_count{service="{{`{{args.service-name}}`}}",status="500"}[5m])) / 
-            sum(irate(api_requests_latency_by_status_count{service="{{`{{args.service-name}}`}}",status="200"}[5m]))
+          (
+            sum(irate(api_requests_latency_by_status_sum{service="{{`{{args.service-name}}`}}",status="500"}[{{`{{args.interval}}`}}])) /
+            sum(irate(api_requests_latency_by_status_sum{service="{{`{{args.service-name}}`}}"}[{{`{{args.interval}}`}}]))
           )
 {{- end }}
