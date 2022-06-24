@@ -91,7 +91,9 @@ affinity: {}
 argoRollout:
   enabled: false
   analysis:
-    enabled: true
+    enabled: false
+    templates:
+    - templateName: success-rate 
   trafficManagement:
     enabled: false
     type: nginx

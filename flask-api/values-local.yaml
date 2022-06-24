@@ -24,6 +24,10 @@ serviceMonitor:
 
 argoRollout:
   enabled: true
+  analysis:
+    enabled: false
+    templates:
+    - templateName: success-rate 
   trafficManagement:
     enabled: true
     type: nginx

@@ -28,7 +28,7 @@ spec:
       {{- if .Values.argoRollout.analysis.enabled }}
       analysis:
         templates:
-        - templateName: success-rate
+          {{- toYaml .Values.argoRollout.analysis.templates | nindent 10 }}
         args:
         - name: service-name
           value: "{{ include "flask-api.fullname" . }}"
