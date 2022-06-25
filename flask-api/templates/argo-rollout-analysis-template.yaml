@@ -10,13 +10,9 @@ spec:
   - name: query-service-name
   - name: prometheus-address
   - name: query-interval
-    value: 1m
   - name: success-rate
-    value: 95
   - name: metrics-interval
-    value: 15s
   - name: metrics-failure-limit
-    value: "3"
   metrics:
   - name: success-rate
     interval: "{{`{{args.metrics-interval}}`}}"
