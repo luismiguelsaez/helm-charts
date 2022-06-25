@@ -32,17 +32,17 @@ spec:
           {{- toYaml .Values.argoRollout.analysis.templates | nindent 10 }}
         args:
         - name: query-service-name
-          value: {{ include "flask-api.fullname" . }}-canary
+          value: "{{ include "flask-api.fullname" . }}-canary"
         - name: query-interval
-          value: {{ .Values.argoRollout.analysis.query.interval}}
+          value: "{{ .Values.argoRollout.analysis.query.interval }}"
         - name: prometheus-address
-          value: {{ .Values.argoRollout.analysis.prometheus.address}}
+          value: "{{ .Values.argoRollout.analysis.prometheus.address }}"
         - name: metrics-interval
-          value: {{ .Values.argoRollout.analysis.metrics.interval}}
+          value: "{{ .Values.argoRollout.analysis.metrics.interval }}"
         - name: metrics-failure-limit
-          value: {{ .Values.argoRollout.analysis.metrics.failureLimit}}
+          value: "{{ .Values.argoRollout.analysis.metrics.failureLimit }}"
         - name: success-rate
-          value: {{ .Values.argoRollout.analysis.successRate}}
+          value: "{{ .Values.argoRollout.analysis.successRate }}"
       {{- end }}
   revisionHistoryLimit: 2
   {{- if not .Values.autoscaling.enabled }}
