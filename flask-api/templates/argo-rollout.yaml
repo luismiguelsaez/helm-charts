@@ -5,6 +5,10 @@ metadata:
   name: {{ include "flask-api.fullname" . }}
   labels:
     {{- include "flask-api.labels" . | nindent 4 }}
+  {{- if .Values.argoRollout.notifications.enabled }}
+  annotations:
+    notifications.argoproj.io/subscribe.on-rollout-step-completed.telegram: luismiguelsaez_bot
+  {{- end }}
 spec:
   strategy:
     canary:

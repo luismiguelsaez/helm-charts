@@ -1,9 +1,13 @@
+{{- if and .Values.argoRollout.enabled .Values.argoRollout.notifications.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "flask-api.fullname" . }}
+  name: argo-rollouts-notification-configmap
   labels:
     {{- include "flask-api.labels" . | nindent 4 }}
 data:
+  {{- if .Values.argoRollout.notifications.telegram.enabled }}
   service.telegram: |
-    token: $telegram-token
+    token: {{ .Values.argoRollout.notifications.telegram.token }}
+  {{- end }}
+{{- end }}

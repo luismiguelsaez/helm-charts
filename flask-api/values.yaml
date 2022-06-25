@@ -122,6 +122,7 @@ argoRollout:
     - setWeight: 100
     - pause: {}
   notifications:
+    enabled: true
     telegram:
       enabled: false
       token: ""

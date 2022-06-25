@@ -44,9 +44,10 @@ argoRollout:
     - setWeight: 5
     - pause: {}
   notifications:
+    enabled: true
     telegram:
-      enabled: false
-      token: ""
+      enabled: true
+      token: "5447243734:AAEZaGmUdTUT28cSXRFsFy0uCrv4-0Jxai8"
 
 flaggerCanary:
   enabled: false
