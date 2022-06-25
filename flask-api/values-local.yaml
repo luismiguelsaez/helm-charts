@@ -24,6 +24,8 @@ serviceMonitor:
 
 argoRollout:
   enabled: true
+  tester:
+    enabled: true
   analysis:
     enabled: true
     startingStep: 2
@@ -53,8 +55,6 @@ argoRollout:
 flaggerCanary:
   enabled: false
   provider: nginx
-  tester:
-    enabled: true
   metrics:
     server: http://prometheus-kube-prometheus-prometheus.monitoring:9090
   analysis:

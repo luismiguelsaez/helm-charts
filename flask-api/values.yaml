@@ -90,6 +90,8 @@ affinity: {}
 
 argoRollout:
   enabled: false
+  tester:
+    enabled: false
   analysis:
     enabled: false
     startingStep: 2
@@ -130,8 +132,6 @@ argoRollout:
 flaggerCanary:
   enabled: false
   provider: nginx
-  tester:
-    enabled: false
   metrics:
     server: http://prometheus-kube-prometheus-prometheus.monitoring:9090
   analysis:
