@@ -12,7 +12,7 @@ spec:
   - name: query-interval
     value: 1m
   - name: success-rate
-    value: "95"
+    value: 95
   - name: metrics-interval
     value: 15s
   - name: metrics-failure-limit
@@ -20,7 +20,7 @@ spec:
   metrics:
   - name: success-rate
     interval: "{{`{{args.metrics-interval}}`}}"
-    successCondition: result[0] >= "{{`{{args.success-rate}}`}}"
+    successCondition: result[0] >= {{`{{args.success-rate}}`}}
     failureLimit: "{{`{{args.metrics-failure-limit}}`}}"
     provider:
       prometheus:

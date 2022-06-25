@@ -48,7 +48,7 @@ spec:
         - name: metrics-failure-limit
           value: "{{ .Values.argoRollout.analysis.metrics.failureLimit }}"
         - name: success-rate
-          value: "{{ .Values.argoRollout.analysis.successRate }}"
+          value: {{ .Values.argoRollout.analysis.successRate }}
       {{- end }}
   revisionHistoryLimit: 2
   {{- if not .Values.autoscaling.enabled }}
