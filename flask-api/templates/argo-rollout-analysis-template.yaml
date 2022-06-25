@@ -17,7 +17,7 @@ spec:
   - name: success-rate
     interval: "{{`{{args.metrics-interval}}`}}"
     successCondition: result[0] >= {{`{{args.success-rate}}`}}
-    failureLimit: {{`{{args.metrics-failure-limit}}`}}
+    failureLimit: "{{`{{args.metrics-failure-limit}}`}}"
     provider:
       prometheus:
         address: "{{`{{args.prometheus-address}}`}}"
