@@ -47,11 +47,14 @@ argoRollout:
     enabled: true
     telegram:
       enabled: true
-      token: "5447243734:AAEZaGmUdTUT28cSXRFsFy0uCrv4-0Jxai8"
+      user: ""
+      token: ""
 
 flaggerCanary:
   enabled: false
   provider: nginx
+  tester:
+    enabled: true
   metrics:
     server: http://prometheus-kube-prometheus-prometheus.monitoring:9090
   analysis:

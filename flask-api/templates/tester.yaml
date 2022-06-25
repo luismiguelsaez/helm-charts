@@ -1,0 +1,18 @@
+{{- if .Values.flaggerCanary.tester.enabled -}}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ include "flask-api.fullname" . }}-tester
+  labels:
+    {{- include "flask-api.labels" . | nindent 4 }}
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - while true;do wget --timeout 2 flask-api-canary.examples -q --server-response;sleep
+      0.25;done
+    image: busybox
+    name: test
+  restartPolicy: Always
+{{- end }}

@@ -7,7 +7,9 @@ metadata:
     {{- include "flask-api.labels" . | nindent 4 }}
   {{- if .Values.argoRollout.notifications.enabled }}
   annotations:
-    notifications.argoproj.io/subscribe.on-rollout-step-completed.telegram: luismiguelsaez_bot
+    {{- if .Values.argoRollout.notifications.telegram.enabled }}
+    notifications.argoproj.io/subscribe.on-rollout-step-completed.telegram: "{{ .Values.argoRollout.notifications.telegram.token }}"
+    {{- end }}
   {{- end }}
 spec:
   strategy:
