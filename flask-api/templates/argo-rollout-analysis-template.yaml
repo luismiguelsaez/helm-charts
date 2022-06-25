@@ -25,7 +25,7 @@ spec:
         address: "{{`{{args.prometheus-address}}`}}"
         query: |
           (
-            sum(irate(api_requests_latency_by_status_sum{service="flask-api-canary",status="200"}[5m])) /
-            sum(irate(api_requests_latency_by_status_sum{service="flask-api-canary"}[5m]))
+            sum(irate(api_requests_latency_by_status_sum{service="{{`{{args.query-service-name}}`}}",status="200"}[5m])) /
+            sum(irate(api_requests_latency_by_status_sum{service="{{`{{args.query-service-name}}`}}"}[5m]))
           ) * 100
 {{- end }}
