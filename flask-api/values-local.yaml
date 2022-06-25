@@ -26,11 +26,17 @@ argoRollout:
   enabled: true
   analysis:
     enabled: true
-    startingStep: 1
+    startingStep: 2
     templates:
     - templateName: success-rate
     prometheus:
       address: http://prometheus-kube-prometheus-prometheus.monitoring:9090
+    successRate: 95
+    query:
+      interval: 5m # Should match or be related to `steps.pause`
+    metrics: 
+      interval: 15s
+      failureLimit: 3
   trafficManagement:
     enabled: true
     type: nginx
