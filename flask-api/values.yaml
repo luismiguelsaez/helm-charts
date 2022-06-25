@@ -105,6 +105,7 @@ argoRollout:
     metrics: 
       interval: 15s
       failureLimit: 3
+      count: 5
   trafficManagement:
     enabled: false
     type: nginx

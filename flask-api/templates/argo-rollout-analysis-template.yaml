@@ -12,12 +12,14 @@ spec:
   - name: query-interval
   - name: success-rate
   - name: metrics-interval
+  - name: metrics-count
   - name: metrics-failure-limit
   metrics:
   - name: success-rate
     interval: "{{`{{args.metrics-interval}}`}}"
-    successCondition: result[0] >= 95
-    failureLimit: 5
+    count: 5
+    successCondition: "result[0] >= 85"
+    failureLimit: 2
     provider:
       prometheus:
         address: "{{`{{args.prometheus-address}}`}}"

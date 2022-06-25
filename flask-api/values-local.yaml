@@ -27,7 +27,7 @@ argoRollout:
   tester:
     enabled: true
   analysis:
-    enabled: true
+    enabled: false
     startingStep: 2
     templates:
     - templateName: success-rate
@@ -39,6 +39,7 @@ argoRollout:
     metrics: 
       interval: 15s
       failureLimit: 3
+      count: 5
   trafficManagement:
     enabled: true
     type: nginx
