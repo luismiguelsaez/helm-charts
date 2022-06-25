@@ -11,6 +11,8 @@ spec:
   - name: prometheus-address
   - name: interval
     value: 1m
+  - name: rate
+    value: "0.95"
   metrics:
   - name: success-rate
     interval: 5m
