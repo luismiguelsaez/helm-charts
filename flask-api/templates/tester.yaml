@@ -1,4 +1,4 @@
-{{- if .Values.flaggerCanary.tester.enabled -}}
+{{- if .Values.argoRollout.tester.enabled -}}
 apiVersion: v1
 kind: Pod
 metadata:
