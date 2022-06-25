@@ -43,6 +43,10 @@ argoRollout:
   steps:
     - setWeight: 5
     - pause: {}
+  notifications:
+    telegram:
+      enabled: false
+      token: ""
 
 flaggerCanary:
   enabled: false

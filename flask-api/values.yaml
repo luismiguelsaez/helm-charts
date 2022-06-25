@@ -121,6 +121,10 @@ argoRollout:
         duration: 5m
     - setWeight: 100
     - pause: {}
+  notifications:
+    telegram:
+      enabled: false
+      token: ""
 
 flaggerCanary:
   enabled: false
