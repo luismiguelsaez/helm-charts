@@ -36,7 +36,7 @@ spec:
         - name: prometheus-address
           value: "{{ .Values.argoRollout.analysis.prometheus.address}}"
         - name: interval
-          value: 1m
+          value: 5m
       {{- end }}
   revisionHistoryLimit: 2
   {{- if not .Values.autoscaling.enabled }}
